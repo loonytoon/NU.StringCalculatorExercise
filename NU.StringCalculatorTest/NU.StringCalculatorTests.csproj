@@ -50,8 +50,14 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="StringCalculationTests.cs" />
+    <Compile Include="StringCalculationTests.UnitTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NU.StringCalculatorExercise\NU.StringCalculatorExercise.csproj">
+      <Project>{a12275ef-b576-43e7-96e9-66bb42d46ebf}</Project>
+      <Name>NU.StringCalculatorExercise</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
