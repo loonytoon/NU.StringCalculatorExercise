@@ -15,16 +15,12 @@ namespace NU.StringCalculatorExercise
         public int Add(string numbers)
         {
             int total = 0;
-            int i = 0;
+            
             try
             {
                 if (numbers != string.Empty)
                 {
-                    string[] result = Regex.Split(numbers, _delimiter, RegexOptions.IgnoreCase);
-                    if (result.Length > 2)
-                    {
-                        throw new System.ArgumentException("Too many numbers found in Parameter (max 2)", "numbers");
-                    }
+                    var result = SplitNumberString(numbers);
                     foreach (var value in result)
                     {
                         int number;
@@ -50,13 +46,27 @@ namespace NU.StringCalculatorExercise
                 Console.WriteLine(e);
                 throw;
             }
-
-
         }
 
+        /*
+         * Add two integers
+         */
         public int Add(int number1, int number2)
         {
             return number1 + number2;
+        }
+
+        public string[] SplitNumberString(string numbers)
+        {
+            string[] result = Regex.Split(numbers, _delimiter, RegexOptions.IgnoreCase);
+            //limit to two numbers as per step one.
+            if (result.Length > 2)
+            {
+                throw new System.ArgumentException("Too many numbers found in Parameter (max 2)", "numbers");
+            }
+
+            return result;
+
         }
     }
 }

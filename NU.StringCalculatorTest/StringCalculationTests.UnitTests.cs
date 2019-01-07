@@ -18,9 +18,13 @@ namespace NU.StringCalculatorTests
         [TestMethod]
         public void When_An_Empty_String_Is_Passed_Return_Zero()
         {
+            //arrange
+
+            //act
             string empty_string;
             empty_string = "";
 
+            //assert
             Assert.AreEqual(_stringCalculator.Add(empty_string),0);
         }
 
