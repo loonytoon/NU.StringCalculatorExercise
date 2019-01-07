@@ -44,10 +44,19 @@ namespace NU.StringCalculatorTests
         [DataRow("Two numbers comma delimiter: (\"3,2\",5)", "3,2", 5)]
         [DataRow("Three numbers comma delimiter: (\"3,2,1\",6)", "3,2,1", 6)]
         [DataRow("Three numbers comma and newline delimiter: (\"3\n2,1\",6)", "3\n2,1", 6)]
-        [DataRow("Four numbers comma delimiter: (\"3,2,1,4\",6)", "3,2,1,4", 10)]
+        [DataRow("Four numbers comma delimiter: (\"3,2,1,4\",10)", "3,2,1,4", 10)]
+        [DataRow("Four numbers comma delimiter one greater the 1000: (\"3,2,1001,4\",9)", "3,2,1001,4", 9)]
         public void When_A_String_Is_Passed_Return_The_Sum_Of_The_Numbers(string parameters,string numbers,int sum)
         {
             Assert.AreEqual(_stringCalculator.Add(numbers),sum);
+        }
+
+        [DataTestMethod]
+        [DataRow("Four numbers comma delimiter one greater the 1000: (\"3,2,1001,4\",9)", "3,2,1001,4", 9)]
+        [DataRow("Four numbers comma delimiter Two greater the 1000: (\"3,2002,1001,4\",7)", "3,2002,1001,4", 7)]
+        public void When_A_String_Is_Passed_That_Contains_Number_Greater_Than_One_Thousand_Ignore_Numbers_Greater_Than_One_Thousand(string parameters, string numbers, int sum)
+        {
+            Assert.AreEqual(_stringCalculator.Add(numbers), sum);
         }
 
         [TestMethod]
@@ -72,7 +81,7 @@ namespace NU.StringCalculatorTests
         public void When_A_String_Is_Passed_That_Contains_A_Negative_Number_Throw_An_Exception(string parameters,
             string numbers, string expectedError)
         {
-            String msg = string.Format("negatives not allowed: {0}", expectedError);
+            String msg =$"negatives not allowed: {expectedError}";
 
             var ex = Assert.ThrowsException<Exception>(() => _stringCalculator.Add(numbers));
             Assert.AreEqual(ex.Message,msg);

@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace NU.StringCalculatorExercise
 {
@@ -15,22 +13,15 @@ namespace NU.StringCalculatorExercise
         public int Add(string numbers)
         {
             int total = 0;
-            
             try
             {
-                if (numbers != string.Empty)
+                if (numbers == string.Empty) return total;
+                var result = GetNumbersFromString(numbers);
+                foreach (var value in result)
                 {
-                    var result = GetNumbersFromString(numbers);
-                    foreach (var value in result)
-                    {
-                        total = Add(value, total);                  
-                    }
-                    return total;
+                    total = Add(value, total);                  
                 }
-                else
-                {
-                    return total;
-                }
+                return total;
             }
             catch (Exception e)
             {
@@ -58,7 +49,12 @@ namespace NU.StringCalculatorExercise
             {
                 int number;
                 var success = int.TryParse(value, out number);
-                if (success && number >= 0)
+
+                if (!success)
+                {
+                    throw new ArgumentException("None number found in Parameter", "numbers");
+                }
+                if (number >= 0 && number <= 1000)
                 {
                     numberInts.Add(number);
                 }
@@ -70,16 +66,12 @@ namespace NU.StringCalculatorExercise
                     }
                     negatives.Append(value);
                 }
-                else
-                {
-                    throw new System.ArgumentException("None number found in Parameter", "numbers");
-                }
             }
 
             if (negatives.Length > 0)
             {
-                String msg = String.Format("negatives not allowed: {0}",negatives.ToString());
-                throw new System.Exception(msg);
+                String msg = $"negatives not allowed: {negatives}";
+                throw new Exception(msg);
             }
 
             return numberInts;
