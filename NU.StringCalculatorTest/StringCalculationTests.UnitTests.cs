@@ -51,7 +51,15 @@ namespace NU.StringCalculatorTests
         }
 
         [TestMethod]
-        public void When_A_String_Is_Passed_That_Contains_An_Invalid_Delimiter_Trow_An_Argument_Exception()
+        public void When_A_String_Is_Passed_That_Contains_A_New_Delimiter_Use_That_Delimiter()
+        {
+            string numbers;
+            numbers = "//;\n1;2";
+            Assert.AreEqual(_stringCalculator.Add(numbers), 3);
+        }
+
+        [TestMethod]
+        public void When_A_String_Is_Passed_That_Contains_An_Invalid_Delimiter_Trow_An_Argument_Exception2()
         {
             string numbers;
             numbers = "1,\n";

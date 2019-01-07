@@ -56,8 +56,22 @@ namespace NU.StringCalculatorExercise
             return number1 + number2;
         }
 
+
         public string[] SplitNumberString(string numbers)
         {
+            //check for new line and delimiter
+            string delimiter_pattern = "//(.{1})\n";
+            Match match = Regex.Match(numbers, delimiter_pattern);
+            if (match.Success && match.Groups.Count > 1)
+            {
+                //remove the pattern from the string
+               Regex rgx = new Regex(delimiter_pattern);
+               numbers = rgx.Replace(numbers, "");
+                //set the delimiter to be the value of group 1.
+                Group g = match.Groups[1];
+                _delimiter = g.Value;
+            }
+
             string[] result = Regex.Split(numbers, _delimiter, RegexOptions.IgnoreCase);
 
             return result;
