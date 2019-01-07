@@ -15,11 +15,16 @@ namespace NU.StringCalculatorExercise
         public int Add(string numbers)
         {
             int total = 0;
+            int i = 0;
             try
             {
                 if (numbers != string.Empty)
                 {
                     string[] result = Regex.Split(numbers, _delimiter, RegexOptions.IgnoreCase);
+                    if (result.Length > 2)
+                    {
+                        throw new System.ArgumentException("Too many numbers found in Parameter (max 2)", "numbers");
+                    }
                     foreach (var value in result)
                     {
                         int number;
