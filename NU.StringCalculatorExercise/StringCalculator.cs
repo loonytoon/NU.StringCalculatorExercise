@@ -24,7 +24,7 @@ namespace NU.StringCalculatorExercise
                     foreach (var value in result)
                     {
                         int number;
-                        bool success = int.TryParse(value, out number);
+                        var success = int.TryParse(value, out number);
                         if (success)
                         {
                             total = Add(total, number);
@@ -59,14 +59,8 @@ namespace NU.StringCalculatorExercise
         public string[] SplitNumberString(string numbers)
         {
             string[] result = Regex.Split(numbers, _delimiter, RegexOptions.IgnoreCase);
-            //limit to two numbers as per step one.
-            if (result.Length > 2)
-            {
-                throw new System.ArgumentException("Too many numbers found in Parameter (max 2)", "numbers");
-            }
 
             return result;
-
         }
     }
 }

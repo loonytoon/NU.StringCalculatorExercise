@@ -41,7 +41,9 @@ namespace NU.StringCalculatorTests
         [DataRow("Empty String: (\"\",0)", "", 0)]
         [DataRow("One number: ( \"1\", 1)", "1", 1)]
         [DataRow("Two numbers comma delimiter: (\"1,2\",3)", "1,2", 3)]
-        [DataRow("Two numbers comma delimiter: (\"3,2\",3)", "3,2", 5)]
+        [DataRow("Two numbers comma delimiter: (\"3,2\",5)", "3,2", 5)]
+        [DataRow("Three numbers comma delimiter: (\"3,2,1\",6)", "3,2,1", 6)]
+        [DataRow("Four numbers comma delimiter: (\"3,2,1,4\",6)", "3,2,1,4", 10)]
         public void When_A_String_Is_Passed_Return_The_Sum_Of_The_Numbers(string parameters,string numbers,int sum)
         {
 
