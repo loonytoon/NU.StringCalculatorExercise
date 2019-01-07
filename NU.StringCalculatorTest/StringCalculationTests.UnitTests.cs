@@ -19,9 +19,9 @@ namespace NU.StringCalculatorTests
         public void When_An_Empty_String_Is_Passed_Return_Zero()
         {
             //arrange
-
-            //act
             string empty_string;
+            //act
+
             empty_string = "";
 
             //assert
@@ -43,19 +43,31 @@ namespace NU.StringCalculatorTests
         [DataRow("Two numbers comma delimiter: (\"1,2\",3)", "1,2", 3)]
         [DataRow("Two numbers comma delimiter: (\"3,2\",5)", "3,2", 5)]
         [DataRow("Three numbers comma delimiter: (\"3,2,1\",6)", "3,2,1", 6)]
+        [DataRow("Three numbers comma and newline delimiter: (\"3\n2,1\",6)", "3\n2,1", 6)]
         [DataRow("Four numbers comma delimiter: (\"3,2,1,4\",6)", "3,2,1,4", 10)]
         public void When_A_String_Is_Passed_Return_The_Sum_Of_The_Numbers(string parameters,string numbers,int sum)
         {
-
             Assert.AreEqual(_stringCalculator.Add(numbers),sum);
+        }
+
+        [TestMethod]
+        public void When_A_String_Is_Passed_That_Contains_An_Invalid_Delimiter_Trow_An_Argument_Exception()
+        {
+            string numbers;
+            numbers = "1,\n";
+            var ex = Assert.ThrowsException<ArgumentException>(() => _stringCalculator.Add(numbers));
         }
 
         [TestMethod]
         public void When_Two_Integers_Are_Passed_Their_Sum_Is_Returned()
         {
-            int number1 = 2;
-            int number2 = 3;
+            int number1;
+            int number2;
+            
+            number1 = 2;
+            number2 = 3;
             int total = 5;
+
             Assert.AreEqual(_stringCalculator.Add(number1,number2), total);
         }
 

@@ -9,7 +9,7 @@ namespace NU.StringCalculatorExercise
 {
     public class StringCalculator
     {
-        private string _delimiter = ",";
+        private string _delimiter = ",|\n";
        
 
         public int Add(string numbers)
@@ -31,7 +31,7 @@ namespace NU.StringCalculatorExercise
                         }
                         else
                         {
-                            throw new System.ArgumentException("No numbers found in Parameter", "numbers");
+                            throw new System.ArgumentException("None number found in Parameter", "numbers");
                         }
                     }
                     return total;
