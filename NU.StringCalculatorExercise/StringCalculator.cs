@@ -20,19 +20,10 @@ namespace NU.StringCalculatorExercise
             {
                 if (numbers != string.Empty)
                 {
-                    var result = SplitNumberString(numbers);
+                    var result = GetNumbersFromString(numbers);
                     foreach (var value in result)
                     {
-                        int number;
-                        var success = int.TryParse(value, out number);
-                        if (success)
-                        {
-                            total = Add(total, number);
-                        }
-                        else
-                        {
-                            throw new System.ArgumentException("None number found in Parameter", "numbers");
-                        }
+                        total = Add(value, total);                  
                     }
                     return total;
                 }
@@ -56,6 +47,44 @@ namespace NU.StringCalculatorExercise
             return number1 + number2;
         }
 
+        public List<int> GetNumbersFromString(string numbers)
+        {
+            List<int> numberInts = new List<int>();
+            StringBuilder negatives = new StringBuilder("");
+
+            string[] numberStrings = SplitNumberString(numbers);
+
+            foreach (var value in numberStrings)
+            {
+                int number;
+                var success = int.TryParse(value, out number);
+                if (success && number >= 0)
+                {
+                    numberInts.Add(number);
+                }
+                else if (number < 0)
+                {
+                    if (negatives.Length > 0)
+                    {
+                        negatives.Append(',');
+                    }
+                    negatives.Append(value);
+                }
+                else
+                {
+                    throw new System.ArgumentException("None number found in Parameter", "numbers");
+                }
+            }
+
+            if (negatives.Length > 0)
+            {
+                String msg = String.Format("negatives not allowed: {0}",negatives.ToString());
+                throw new System.Exception(msg);
+            }
+
+            return numberInts;
+        }
+        
 
         public string[] SplitNumberString(string numbers)
         {

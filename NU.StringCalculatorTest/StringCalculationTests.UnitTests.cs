@@ -59,12 +59,25 @@ namespace NU.StringCalculatorTests
         }
 
         [TestMethod]
-        public void When_A_String_Is_Passed_That_Contains_An_Invalid_Delimiter_Trow_An_Argument_Exception2()
+        public void When_A_String_Is_Passed_That_Contains_An_Invalid_Delimiter_Trow_An_Argument_Exception()
         {
             string numbers;
             numbers = "1,\n";
             var ex = Assert.ThrowsException<ArgumentException>(() => _stringCalculator.Add(numbers));
         }
+
+        [DataTestMethod]
+        [DataRow("Two numbers comma delimiter: (\"1,-2\")", "1,-2", "-2")]
+        [DataRow("Three numbers comma delimiter two negatives: (\"1,-2,-4\")", "1,-2,-4", "-2,-4")]
+        public void When_A_String_Is_Passed_That_Contains_A_Negative_Number_Throw_An_Exception(string parameters,
+            string numbers, string expectedError)
+        {
+            String msg = string.Format("negatives not allowed: {0}", expectedError);
+
+            var ex = Assert.ThrowsException<Exception>(() => _stringCalculator.Add(numbers));
+            Assert.AreEqual(ex.Message,msg);
+        }
+
 
         [TestMethod]
         public void When_Two_Integers_Are_Passed_Their_Sum_Is_Returned()
@@ -78,6 +91,5 @@ namespace NU.StringCalculatorTests
 
             Assert.AreEqual(_stringCalculator.Add(number1,number2), total);
         }
-
     }
 }
