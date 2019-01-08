@@ -59,12 +59,14 @@ namespace NU.StringCalculatorTests
             Assert.AreEqual(_stringCalculator.Add(numbers), sum);
         }
 
-        [TestMethod]
-        public void When_A_String_Is_Passed_That_Contains_A_New_Delimiter_Use_That_Delimiter()
+        [DataTestMethod]
+        [DataRow("Two numbers semi-colon (single char) delimiter: (\"//;\n1;2\",3)", "//;\n1;2", 3)]
+        [DataRow("Three numbers [***] delimiter: (\"//[***]\n1***2***3\",6)", "//[***]\n1***2***3", 6)]
+       // [DataRow("Three numbers [***] and ; delimiter: (\"//[***][;]\n1***2***3\",6)", "//[***]\n1***2***3", 6)]
+        public void When_A_String_Is_Passed_That_Contains_A_New_Delimiter_Use_That_Delimiter(string parameters, string numbers, int sum)
         {
-            string numbers;
-            numbers = "//;\n1;2";
-            Assert.AreEqual(_stringCalculator.Add(numbers), 3);
+          
+            Assert.AreEqual(_stringCalculator.Add(numbers), sum);
         }
 
         [TestMethod]

@@ -76,22 +76,36 @@ namespace NU.StringCalculatorExercise
 
             return numberInts;
         }
-        
 
-        public string[] SplitNumberString(string numbers)
+        public string CheckForDifferentDelimiters(string numbers)
         {
-            //check for new line and delimiter
-            string delimiter_pattern = "//(.{1})\n";
+            string delimiter_pattern = "//(.{1})\n|//\\[(.+)\\]\n";
             Match match = Regex.Match(numbers, delimiter_pattern);
+
             if (match.Success && match.Groups.Count > 1)
             {
                 //remove the pattern from the string
-               Regex rgx = new Regex(delimiter_pattern);
-               numbers = rgx.Replace(numbers, "");
-                //set the delimiter to be the value of group 1.
-                Group g = match.Groups[1];
-                _delimiter = g.Value;
+                Regex rgx = new Regex(delimiter_pattern);
+                numbers = rgx.Replace(numbers, "");
+                //set the delimiter to be the value of group that contains the match.
+                for (var i = 1; i < match.Groups.Count; i++)
+                {
+                    Group g = match.Groups[i];
+                    if (!string.IsNullOrEmpty(g.Value))
+                    {
+                        _delimiter = Regex.Escape(g.Value);
+                     }
+                }
             }
+
+            return numbers;
+
+            
+        }
+        public string[] SplitNumberString(string numbers)
+        {
+            //check for new line and delimiter
+            numbers = CheckForDifferentDelimiters(numbers);
 
             string[] result = Regex.Split(numbers, _delimiter, RegexOptions.IgnoreCase);
 
