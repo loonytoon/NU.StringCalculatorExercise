@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -79,22 +80,46 @@ namespace NU.StringCalculatorExercise
 
         public string CheckForDifferentDelimiters(string numbers)
         {
-            string delimiter_pattern = "//(.{1})\n|//\\[(.+)\\]\n";
-            Match match = Regex.Match(numbers, delimiter_pattern);
+            
+            string delimiter_pattern = "//(.{1})\n";
+            string delimiter_present = "//.+?\n";
 
-            if (match.Success && match.Groups.Count > 1)
+            MatchCollection matches = Regex.Matches(numbers, delimiter_pattern);
+
+            if (matches.Count == 0)
             {
-                //remove the pattern from the string
-                Regex rgx = new Regex(delimiter_pattern);
-                numbers = rgx.Replace(numbers, "");
-                //set the delimiter to be the value of group that contains the match.
-                for (var i = 1; i < match.Groups.Count; i++)
+                //try the multi delimiter match
+                Regex rgx = new Regex(delimiter_present);
+                Match present = rgx.Match(numbers);
+                if (present.Success)
                 {
-                    Group g = match.Groups[i];
-                    if (!string.IsNullOrEmpty(g.Value))
+                    delimiter_pattern = "\\[(.+?)\\]";
+                    matches = Regex.Matches(numbers, delimiter_pattern);
+                }
+            }
+
+            if (matches.Count > 0)
+            {
+                _delimiter = "";
+                //remove the pattern from the string
+                Regex rgx = new Regex(delimiter_present);
+                numbers = rgx.Replace(numbers, "");
+            }
+            foreach (Match match in matches)
+            {
+                if (match.Success && match.Groups.Count > 1)
+                {
+                    //set the delimiter to be the value of group that contains the match.
+                    //ignore first value it contains he match pattern
+                    for (var i = 1; i < match.Groups.Count; i++)
                     {
-                        _delimiter = Regex.Escape(g.Value);
-                     }
+                        Group g = match.Groups[i];
+                        if (!string.IsNullOrEmpty(g.Value))
+                        {
+                            if (_delimiter.Length > 0) _delimiter = $"{_delimiter}|";
+                            _delimiter = $"{_delimiter}{Regex.Escape(g.Value)}";
+                        }
+                    }
                 }
             }
 
