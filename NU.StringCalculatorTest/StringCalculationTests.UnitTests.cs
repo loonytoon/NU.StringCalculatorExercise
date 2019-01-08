@@ -64,6 +64,8 @@ namespace NU.StringCalculatorTests
         [DataRow("Three numbers [***] delimiter: (\"//[***]\n1***2***3\",6)", "//[***]\n1***2***3", 6)]
         [DataRow("Three numbers [**] delimiter: (\"//[**]\n1**2**3\",6)", "//[**]\n1**2**3", 6)]
         [DataRow("Three numbers [*] and [%] delimiter: (\"//[*][%]\n1*2%3\",6)", "//[*][%]\n1*2%3", 6)]
+        [DataRow("Three numbers [**] and [%%] delimiter: (\"//[*][%]\n1*2%3\",6)", "//[*][%]\n1*2%3", 6)]
+        [DataRow("Three numbers [aa] and [bbb] delimiter: (\"//[*][%]\n1*2%3\",6)", "//[*][%]\n1*2%3", 6)]
         public void When_A_String_Is_Passed_That_Contains_A_New_Delimiter_Use_That_Delimiter(string parameters, string numbers, int sum)
         {
           
